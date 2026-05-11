@@ -12,7 +12,7 @@ Aplicación móvil simple y funcional para gestionar tareas personales.
 - **Expo SDK 54**
 - **AsyncStorage**
 
-## 📂 Estructura del proyecto
+## Estructura del proyecto
 
 - /src
 - /screens        → Pantallas principales
