@@ -1,50 +1,50 @@
-# Welcome to your Expo app 👋
+# Vixti — Gestor de Tareas (React Native + Expo)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicación móvil simple y funcional para gestionar tareas personales.  
 
-## Get started
+[GitHub Kevin Diaz](https://github.com/kevindiazistea/vixti)
 
-1. Install dependencies
+[Video Kevin Diaz](https://youtube.com/shorts/-nWMfSNlVbo)
 
-   ```bash
-   npm install
-   ```
+## Tecnologías utilizadas
 
-2. Start the app
+- **React Native**
+- **Expo SDK 54**
+- **AsyncStorage**
 
-   ```bash
-   npx expo start
-   ```
+## 📂 Estructura del proyecto
 
-In the output, you'll find options to open the app in a
+- /src
+- /screens        → Pantallas principales
+- /components     → Componentes reutilizables
+- /storage        → AsyncStorage
+- App.tsx         → Navegación principal
+- package.json    → Version SDK 49 → Proximamente 54/55
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Cómo ejecutar el proyecto
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+1. Instalar dependencias
 
-## Get a fresh project
+   Terminal → Bash
+- npm install
 
-When you're ready, run:
+2. Iniciar apliacaion
 
-```bash
-npm run reset-project
-```
+   Terminal → Bash
+- npx expo start 
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+3. Levantar emulador 
 
-## Learn more
+   Terminal → Bash
+- a → Android Studio 
 
-To learn more about developing your project with Expo, look at the following resources:
+## La aplicacion gestor de tareas, nos debe permitir:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- _Crear usuario_
+- _Loguearse con el usuario_
+- Enocontrarse en _Home_, con la posiblidad de _Ver_ y/o _Agregar o Eliminar tareas_. Ademas de _Cerrar Sesion_.
 
-## Join the community
+## Autor
+Kevin Díaz
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Parcial 1 — Apps Móviles (ISTEA)
