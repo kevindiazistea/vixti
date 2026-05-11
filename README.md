@@ -42,6 +42,7 @@ Aplicación móvil simple y funcional para gestionar tareas personales.
 
 - _Crear usuario_
 - _Loguearse con el usuario_
+- Notificarnos pasados los 5 segundos de la creacion de la tarea
 - Enocontrarse en _Home_, con la posiblidad de _Ver_ y/o _Agregar o Eliminar tareas_. Ademas de _Cerrar Sesion_.
 
 ## Autor
