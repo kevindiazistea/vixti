@@ -7,7 +7,7 @@ export default function formatText(text: string) {
     .split(/\s+/)
     .map((word, index) => {
       if (index !== 0 && lowerWords.includes(word)) {
-        return word; // palabra en minúscula
+        return word;
       }
       return word.charAt(0).toUpperCase() + word.slice(1);
     })

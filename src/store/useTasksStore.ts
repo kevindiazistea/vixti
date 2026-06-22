@@ -17,7 +17,6 @@ interface TasksState {
   moverAEliminadas: (id: string) => void;
   restaurarEliminada: (id: string) => void;
 
-  // 👇 AGREGADAS
   restaurarCompletada: (id: string) => void;
   eliminarCompletada: (id: string) => void;
 }
@@ -29,13 +28,11 @@ export const useTasksStore = create<TasksState>()(
       tareasCompletadas: [],
       tareasEliminadas: [],
 
-      // AGREGAR
       agregarTarea: (t) =>
         set({
           tareas: [...get().tareas, t],
         }),
 
-      // EDITAR
       editarTarea: (t) =>
         set({
           tareas: get().tareas.map((x) =>
@@ -43,7 +40,6 @@ export const useTasksStore = create<TasksState>()(
           ),
         }),
 
-      // ELIMINAR (mueve a papelera)
       eliminarTarea: (id) =>
         set((state) => {
           const tarea = state.tareas.find((t) => t.id === id);
@@ -55,14 +51,12 @@ export const useTasksStore = create<TasksState>()(
           };
         }),
 
-      // COMPLETAR / DESCOMPLETAR
       toggleCompletada: (id) =>
   set((state) => {
-    // Buscar en tareas activas
+
     let tarea = state.tareas.find((t) => t.id === id);
     let origen: "tareas" | "tareasCompletadas" = "tareas";
 
-    // Si no está en tareas, buscar en completadas
     if (!tarea) {
       tarea = state.tareasCompletadas.find((t) => t.id === id);
       origen = "tareasCompletadas";
@@ -72,7 +66,7 @@ export const useTasksStore = create<TasksState>()(
 
     const actualizada = { ...tarea, completada: !tarea.completada };
 
-    // Si se completa → mover a completadas
+    // Si se completa, mover a completadas
     if (actualizada.completada) {
       return {
         tareas: state.tareas.filter((t) => t.id !== id),
@@ -80,7 +74,7 @@ export const useTasksStore = create<TasksState>()(
       };
     }
 
-    // Si se descompleta → mover a tareas activas
+    // Mover a tareas activas
     return {
       tareas: [...state.tareas, actualizada],
       tareasCompletadas: state.tareasCompletadas.filter((t) => t.id !== id),
@@ -88,7 +82,7 @@ export const useTasksStore = create<TasksState>()(
   }),
 
 
-      // MOVER A COMPLETADAS (manual)
+      // Mover a completadas, pero manual
       moverACompletadas: (id) =>
         set((state) => {
           const tarea = state.tareas.find((t) => t.id === id);
@@ -103,7 +97,7 @@ export const useTasksStore = create<TasksState>()(
           };
         }),
 
-      // MOVER A ELIMINADAS (manual)
+      // Mover a eliminadas, pero manual
       moverAEliminadas: (id) =>
         set((state) => {
           const tarea = state.tareas.find((t) => t.id === id);
@@ -115,7 +109,7 @@ export const useTasksStore = create<TasksState>()(
           };
         }),
 
-      // RESTAURAR DESDE PAPELERA
+      // restaurar
       restaurarEliminada: (id) =>
         set((state) => {
           const tarea = state.tareasEliminadas.find((t) => t.id === id);
@@ -127,7 +121,7 @@ export const useTasksStore = create<TasksState>()(
           };
         }),
 
-      // 👇 NUEVO: RESTAURAR COMPLETADA → vuelve a tareas activas
+      //  restaurar completadas
       restaurarCompletada: (id) =>
         set((state) => {
           const tarea = state.tareasCompletadas.find((t) => t.id === id);
@@ -141,7 +135,7 @@ export const useTasksStore = create<TasksState>()(
           };
         }),
 
-      // 👇 NUEVO: ELIMINAR COMPLETADA → borrar definitivo
+      // borrar desde eliminadas
       eliminarCompletada: (id) =>
         set((state) => ({
           tareasCompletadas: state.tareasCompletadas.filter((t) => t.id !== id),

@@ -55,13 +55,13 @@ export default function AddTaskScreen({ navigation, route }: Props) {
     tareaEditar?.descripcion ?? ""
   );
 
-  // FOTO
+  // Foto
   const [imagen, setImagen] = useState<string | undefined>(
     tareaEditar?.imagen
   );
   const [previewVisible, setPreviewVisible] = useState(false);
 
-  // UBICACIÓN
+  // Ubicacion
   const [ubicacion, setUbicacion] = useState<
     { latitude: number; longitude: number; address?: string } | null
   >(
@@ -80,18 +80,18 @@ export default function AddTaskScreen({ navigation, route }: Props) {
       : null
   );
 
-  // CONTACTO
+  // Contacto
   const [contacto, setContacto] = useState<
     { nombre: string; telefono?: string } | null
   >(tareaEditar?.contacto ?? null);
 
-  // CALENDARIO
+  // Calendario
   const [eventId, setEventId] = useState<string | null>(
     tareaEditar?.eventId ?? null
   );
   const [fechaEvento, setFechaEvento] = useState(new Date());
 
-  // RECORDATORIOS
+  // Recordatorio
   const [temporizador, setTemporizador] = useState<number>(
     Number(
       tareaEditar?.recordatorio.tipo === "minutos"
@@ -128,7 +128,7 @@ export default function AddTaskScreen({ navigation, route }: Props) {
     Notifications.requestPermissionsAsync();
   }, []);
 
-  // FOTO: cámara
+  // Camara
   const abrirCamara = async () => {
     const permiso = await pedirPermisoCamara();
     if (!permiso.granted) {
@@ -142,7 +142,7 @@ export default function AddTaskScreen({ navigation, route }: Props) {
     }
   };
 
-  // FOTO: galería
+  // Galería
   const abrirGaleria = async () => {
     const permiso = await pedirPermisoGaleria();
     if (!permiso.granted) {
@@ -156,7 +156,7 @@ export default function AddTaskScreen({ navigation, route }: Props) {
     }
   };
 
-  // UBICACIÓN
+  // Ubicacion
   const obtenerUbicacionHandler = async () => {
     const permiso = await pedirPermisoUbicacion();
     if (!permiso.granted) {
@@ -177,7 +177,7 @@ export default function AddTaskScreen({ navigation, route }: Props) {
     });
   };
 
-  // CONTACTO
+  // Contacto
   const seleccionarContactoHandler = async () => {
     const permiso = await pedirPermisoContactos();
     if (!permiso.granted) {
@@ -194,7 +194,7 @@ export default function AddTaskScreen({ navigation, route }: Props) {
     });
   };
 
-  // GUARDAR TAREA
+  // Guardar tarea
   const guardarTareaHandler = async () => {
     if (!titulo.trim()) {
       Alert.alert("Error", "El título es obligatorio");
@@ -203,7 +203,7 @@ export default function AddTaskScreen({ navigation, route }: Props) {
 
     let notificationId: string | null = null;
 
-    // RECORDATORIO SIMPLE
+    // Recordatorio simple
     if (!personalizado && temporizador > 0) {
       const trigger: Notifications.TimeIntervalTriggerInput = {
       type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
@@ -218,7 +218,7 @@ export default function AddTaskScreen({ navigation, route }: Props) {
     });
     }
 
-  // RECORDATORIO PERSONALIZADO
+  // Recordatorio perzonalizado
     else if (personalizado && tipoRecordatorio) {
     const trigger: Notifications.CalendarTriggerInput = {
     type: Notifications.SchedulableTriggerInputTypes.CALENDAR,
@@ -235,7 +235,7 @@ export default function AddTaskScreen({ navigation, route }: Props) {
     }
 
 
-    // EVENTO DE CALENDARIO
+    // Evento de calendario
     let nuevoEventId = eventId;
     const permisoCal = await pedirPermisoCalendario();
 
@@ -249,7 +249,7 @@ export default function AddTaskScreen({ navigation, route }: Props) {
       );
     }
 
-    // ARMAR TAREA
+    // Armar la tarea completa
     const nuevaTarea: Tarea = {
       id: tareaEditar?.id ?? Date.now().toString(),
       titulo: titulo.trim(),
@@ -293,7 +293,7 @@ export default function AddTaskScreen({ navigation, route }: Props) {
     navigation.goBack();
   };
 
-  // RENDER
+  // Render
   return (
     <ScrollView 
   style={{ flex: 1, backgroundColor: colors.background }}
