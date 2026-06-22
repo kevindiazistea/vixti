@@ -1,7 +1,10 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useState } from "react";
-import { Alert, Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { useState } from "react";
+import { Alert, Text, View } from "react-native";
+import Button from "../components/Button";
+import Input from '../components/Input';
 import { loginUsuario } from "../storage/auth";
+import globalStyles from "../styles/globalStyles";
 
 type Props = NativeStackScreenProps<any>;
 
@@ -16,25 +19,24 @@ export default function LoginScreen({ navigation }: Props) {
       Alert.alert("Error", "Usuario o contraseña incorrectos");
       return;
     }
-  navigation.reset({
-    index: 0,
-    routes: [{ name: "Home" }],
-  });
+
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Home" }],
+    });
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Iniciar Sesión</Text>
+    <View style={globalStyles.screen}>
+      <Text style={globalStyles.title}>Iniciar Sesión</Text>
 
-      <TextInput
-        style={styles.input}
+      <Input
         placeholder="Usuario"
         value={usuario}
         onChangeText={setUsuario}
       />
 
-      <TextInput
-        style={styles.input}
+      <Input
         placeholder="Contraseña"
         secureTextEntry
         value={password}
@@ -52,15 +54,3 @@ export default function LoginScreen({ navigation }: Props) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", padding: 20 },
-  title: { fontSize: 24, marginBottom: 20, textAlign: "center" },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 10,
-    marginBottom: 12,
-    borderRadius: 5,
-  },
-});

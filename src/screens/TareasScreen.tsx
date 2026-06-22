@@ -1,73 +1,116 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useEffect, useState } from 'react';
-import { Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { guardarTareas, obtenerTareas, Tarea } from '../storage/tasks';
+import { FlatList, Image, Text, View } from 'react-native';
+import Button from "../components/Button";
+import Card from "../components/Card";
+import { useTasksStore } from "../store/useTasksStore";
+import globalStyles from '../styles/globalStyles';
+import colors from "../theme/colors";
 
 type Props = NativeStackScreenProps<any>;
 
 export default function TareasScreen({ navigation }: Props) {
 
-  const [tareas, setTareas] = useState<Tarea[]>([]);
-
-  async function cargarTareas() {
-    const data = await obtenerTareas();
-    setTareas(data);
-  }
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', cargarTareas);
-    return unsubscribe;
-  }, [navigation]);
-
-  async function completarTarea(id: string) {
-    const nuevas = tareas.map(t =>
-      t.id === id ? { ...t, completada: !t.completada } : t
-    );
-
-    setTareas(nuevas);
-    await guardarTareas(nuevas);
-  }
-
-  async function eliminarTarea(id: string) {
-    const nuevas = tareas.filter(t => t.id !== id);
-    setTareas(nuevas);
-    await guardarTareas(nuevas);
-  }
+  const tareas = useTasksStore(s => s.tareas);
+  const toggleCompletada = useTasksStore(s => s.toggleCompletada);
+  const eliminarTarea = useTasksStore(s => s.eliminarTarea);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Mis Tareas</Text>
+    <View style={globalStyles.screen}>
+      <Text style={globalStyles.title}>Mis Tareas</Text>
 
       <FlatList
         data={tareas}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={styles.taskItem}>
-            <Text style={[styles.taskText, item.completada && styles.completed]}>
+          <Card>
+
+            <Text
+              style={{
+                fontSize: 18,
+                fontWeight: "600",
+                color: colors.text,
+                textDecorationLine: item.completada ? "line-through" : "none",
+                opacity: item.completada ? 0.5 : 1,
+              }}
+            >
               {item.titulo}
             </Text>
 
-            <Text style={styles.taskDesc}>{item.descripcion}</Text>
-
-            <View style={styles.row}>
-              <TouchableOpacity
-                style={styles.completeButton}
-                onPress={() => completarTarea(item.id)}
+            {item.descripcion ? (
+              <Text
+                style={{
+                  color: colors.textSecondary,
+                  marginTop: 4,
+                }}
               >
-                <Text style={{ color: 'white' }}>✔</Text>
-              </TouchableOpacity>
+                {item.descripcion}
+              </Text>
+            ) : null}
 
-              <TouchableOpacity
-                style={styles.deleteButton}
+            {item.imagen && (
+              <Image
+                source={{ uri: item.imagen }}
+                style={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: 10,
+                  marginTop: 10,
+                }}
+              />
+            )}
+
+            {item.ubicacion && (
+              <Text style={{ marginTop: 8, color: colors.text }}>
+                📍 {item.ubicacion.direccion 
+                      ? item.ubicacion.direccion 
+                      : `${item.ubicacion.lat.toFixed(4)}, ${item.ubicacion.lng.toFixed(4)}`}
+              </Text>
+            )}
+
+            {item.contacto && (
+              <Text style={{ marginTop: 8, color: colors.textSecondary }}>
+                👤 {item.contacto.nombre}
+                {item.contacto.telefono ? ` — ${item.contacto.telefono}` : ''}
+              </Text>
+            )}
+
+            {item.eventId && (
+              <Text style={{ marginTop: 8, color: colors.textSecondary }}>
+                📅 Evento creado en calendario
+              </Text>
+            )}
+
+            <View
+              style={{
+                flexDirection: "row",
+                gap: 10,
+                marginTop: 12,
+              }}
+            >
+              <Button
+                title={item.completada ? "Desmarcar" : "Completar"}
+                color={colors.secondary}
+                onPress={() => toggleCompletada(item.id)}
+              />
+
+              <Button
+                title="Editar"
+                color={colors.secondary}
+                onPress={() => navigation.navigate('AddTask', { tarea: item })}
+              />
+
+              <Button
+                title="Eliminar"
+                color={colors.danger}
                 onPress={() => eliminarTarea(item.id)}
-              >
-                <Text style={{ color: 'white' }}>🗑</Text>
-              </TouchableOpacity>
+              />
             </View>
-          </View>
+
+          </Card>
         )}
+
         ListEmptyComponent={
-          <Text style={{ textAlign: 'center', marginTop: 20 }}>
+          <Text style={{ textAlign: 'center', marginTop: 20, color: colors.textSecondary }}>
             No hay tareas aún
           </Text>
         }
@@ -79,40 +122,3 @@ export default function TareasScreen({ navigation }: Props) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  title: { fontSize: 26, textAlign: 'center', marginBottom: 20 },
-
-  taskItem: {
-    padding: 15,
-    backgroundColor: '#eee',
-    borderRadius: 8,
-    marginBottom: 10,
-  },
-
-  taskText: { fontSize: 18, fontWeight: 'bold' },
-  taskDesc: { fontSize: 14, color: '#555', marginBottom: 10 },
-
-  completed: {
-    textDecorationLine: 'line-through',
-    color: 'green',
-  },
-
-  row: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-
-  completeButton: {
-    backgroundColor: 'green',
-    padding: 10,
-    borderRadius: 5,
-  },
-
-  deleteButton: {
-    backgroundColor: 'red',
-    padding: 10,
-    borderRadius: 5,
-  },
-});
