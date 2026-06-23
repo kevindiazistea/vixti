@@ -59,6 +59,11 @@ Raiz del proyecto, con una terminal
 
 - npm test
 
+
+- Comprobar que la tarea tenga un titutlo
+- Marca la tarea como completada
+- Verifica que tenga informacion la tarea
+
 ## La aplicacion gestor de tareas, nos debe permitir
 
 - *Crear usuario*
