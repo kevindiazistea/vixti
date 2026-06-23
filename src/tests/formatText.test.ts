@@ -1,9 +1,9 @@
 import formatText from "../components/formatText";
 
 describe("formatText", () => {
-  it("capitaliza correctamente con reglas profesionales", () => {
-    expect(formatText("river plate")).toBe("River Plate");
-    expect(formatText("la banda del millo")).toBe("La Banda del Millo");
-    expect(formatText("los pibes de zona norte")).toBe("Los Pibes de Zona Norte");
+  it("formatea correctamente títulos de tareas reales", () => {
+    expect(formatText("sacar turno en el medico")).toBe("Sacar Turno en el Medico");
+    expect(formatText("entregar trabajo de apps moviles")).toBe("Entregar Trabajo de Apps Moviles");
+    expect(formatText("comprar regalo para mama")).toBe("Comprar Regalo para Mama");
   });
 });
